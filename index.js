@@ -13,6 +13,6 @@ app.command("/ping", async ({ command, ack, respond }) => {
 });
 
 (async () => {
-    await app.start(3000)
-    console.log("SlackTask is running on :3000");
+    await app.start(3001)
+    console.log("SlackTask is running on :3001");
 })
