@@ -1,11 +1,11 @@
-version: "3.9"
-
 services:
   slack-bot:
     build: .
     container_name: slack-task-bot
     restart: unless-stopped
-    env_file:
-      - .env
     ports:
       - "3001:3001"
+    environment:
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+      PORT: 3001
