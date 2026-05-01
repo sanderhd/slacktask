@@ -15,6 +15,7 @@ function warn(message) {
 };
 
 module.exports = {
+    time,
     log,
     error,
     warn,

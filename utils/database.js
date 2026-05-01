@@ -22,6 +22,11 @@ module.exports = {
         return stmt.all(userId);
     },
 
+    getTaskById: (taskId, userId) => {
+        const stmt = db.prepare('SELECT * FROM tasks WHERE id = ? AND user_id = ?');
+        return stmt.get(taskId, userId);
+    },
+
     completeTask: (taskId) => {
         const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
         return stmt.run(taskId); 
