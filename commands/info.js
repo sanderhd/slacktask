@@ -75,11 +75,16 @@ module.exports = (app) => {
         await respond({ blocks });
     });
 
-    app.action('finish_task', async({ action, ack, respond }) => {
+    app.action('finish_task', async({ action, ack, client, body }) => {
         await ack();
+        console.log(`[LOG] Button clicked`)
         const taskId = parseInt(action.value);
-
         db.completeTask(taskId);
-        await respond('Completed task!');
+
+        await client.chat.postEphemeral({
+            channel: body.channel.id,
+            user: body.user.id,
+            text: `✅ Task ${taskId} completed!`
+        })
     })
 }
