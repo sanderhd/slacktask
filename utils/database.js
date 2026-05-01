@@ -14,7 +14,14 @@ db.exec(`
 module.exports = {
     addTask: (userId, taskText) => {
         const stmt = db.prepare('INSERT INTO tasks (user_id, task_text) VALUES (?, ?)');
-        return stmt.run(userId, taskText);
+
+        const result = stmt.run(userId, taskText);
+
+        return {
+            id: result.lastInsertRowid,
+            task_text: taskText,
+            completed: 0
+        };
     },
 
     getTasks: (userId) => {
