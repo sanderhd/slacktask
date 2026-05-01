@@ -1,8 +1,13 @@
+const db = require("../utils/database");
+
 module.exports = (app) => {
     app.command("/task", async ({ command, ack, respond }) => {
         await ack();
 
         const task = command.text;
+        const userId = user.id;
+
+        db.addTask(userId, task)
 
         await respond({
             blocks: [
