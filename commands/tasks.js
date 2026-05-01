@@ -1,10 +1,11 @@
 const db = require("../utils/database");
 
 module.exports = (app) => {
-    app.command("/list", async ({ ack, respond, user }) => {
+    app.command("/list", async ({ command, ack, respond }) => {
         await ack();
 
-        const tasks = db.getTasks(command.user_id);
+        const userId = command.user_id;
+        const tasks = db.getTasks(userId);
         
         const taskBlocks = tasks.map(task => ({
             type: "section",
