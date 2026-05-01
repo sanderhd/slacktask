@@ -36,7 +36,7 @@ module.exports = (app) => {
                         text: 'Info'
                     },
                     action_id: 'view_task_info',
-                    value: task.id.toSting()
+                    value: task.id.toString()
                 }
             });
         });
