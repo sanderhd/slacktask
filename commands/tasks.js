@@ -29,7 +29,7 @@ module.exports = (app) => {
                     type: 'mrkdwn',
                     text: `*ID: ${task.id}* - ${task.task_text} (Created at: ${task.created_at})`
                 },
-                accesory: {
+                accessory: {
                     type: 'button',
                     text: {
                         type: 'plain_text',
