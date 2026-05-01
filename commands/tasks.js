@@ -1,31 +1,46 @@
 const db = require("../utils/database");
 
 module.exports = (app) => {
-    app.command("/list", async ({ command, ack, respond }) => {
+    app.command("/tasks", async ({ command, ack, respond }) => {
         await ack();
 
         const userId = command.user_id;
         const tasks = db.getTasks(userId);
-        
-        const taskBlocks = tasks.map(task => ({
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: `${task.completed ? "✅" : "❌"} ${task.task_text}`
-            }
-        }));
 
-        await respond({
-            blocks: [
-                {
-                    type: "header",
-                    text: {
-                        type: "plain_text",
-                        text: "📋 Your Tasks"
-                    }
+        if (tasks.length  === 0) {
+            await respond(`No tasks found! Create a task with /task <task>`);
+            return;
+        }
+
+        const blocks = [
+            {
+                type: 'section',
+                text: {
+                    type: 'mrkdwn',
+                    text: 'Here are your tasks:'
+                }
+            }
+        ];
+        
+        tasks.forEach(task => {
+            blocks.push({
+                type: 'section',
+                text: {
+                    type: 'mrkdwn',
+                    text: `*ID: ${task.id}* - ${task.task_text} (Created at: ${task.created_at})`
                 },
-                ...taskBlocks
-            ]
+                accesory: {
+                    type: 'button',
+                    text: {
+                        type: 'plain_text',
+                        text: 'Info'
+                    },
+                    action_id: 'view_task_info',
+                    value: task.id.toSting()
+                }
+            });
         });
+
+        await respond({ blocks });
     });
 };
