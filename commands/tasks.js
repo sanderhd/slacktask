@@ -1,7 +1,7 @@
 const db = require("../utils/database");
 
 module.exports = (app) => {
-    app.command("/tasks", async ({ ack, respond, user }) => {
+    app.command("/list", async ({ ack, respond, user }) => {
         await ack();
 
         const tasks = db.getTasks(command.user_id);
