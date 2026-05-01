@@ -1,6 +1,6 @@
 module.exports = (app) => {
     app.command("/task", async ({ command, ack, respond }) => {
-        await ack;
+        await ack();
 
         const task = command.text;
 
@@ -16,7 +16,7 @@ module.exports = (app) => {
                 {
                     type: "section",
                     text: {
-                        type: "mrdown",
+                        type: "mrkdwn",
                         text: command.text,
                     },
                 },
