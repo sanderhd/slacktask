@@ -14,31 +14,52 @@ module.exports = (app) => {
 
         const blocks = [
             {
-                type: 'section',
+                type: "header",
                 text: {
-                    type: 'mrkdwn',
-                    text: 'Here are your tasks:'
+                    type: "plain_text",
+                    text: "📋 Your Tasks",
+                    emoji: true
                 }
+            },
+            {
+                type: "context",
+                elements: [
+                    {
+                        type: "mrkdwn",
+                        text: `You have *${tasks.length}* task(s)`
+                    }
+                ]
+            },
+            {
+                type: "divider"
             }
         ];
-        
+
         tasks.forEach(task => {
-            blocks.push({
-                type: 'section',
-                text: {
-                    type: 'mrkdwn',
-                    text: `*ID: ${task.id}* - ${task.task_text} (Created at: ${task.created_at})`
-                },
-                accessory: {
-                    type: 'button',
+            blocks.push(
+                {
+                    type: "section",
                     text: {
-                        type: 'plain_text',
-                        text: 'Info'
+                        type: "mrkdwn",
+                        text:
+                            `*${task.task_text}*\n` +
+                            `🆔 ID: ${task.id} · 🕒 ${task.created_at}`
                     },
-                    action_id: 'view_task_info',
-                    value: task.id.toString()
+                    accessory: {
+                        type: "button",
+                        text: {
+                            type: "plain_text",
+                            text: "View",
+                            emoji: true
+                        },
+                        action_id: "view_task_info",
+                        value: task.id.toString()
+                    }
+                },
+                {
+                    type: "divider"
                 }
-            });
+            );
         });
 
         await respond({ blocks });

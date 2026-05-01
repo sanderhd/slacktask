@@ -1,15 +1,37 @@
 module.exports = (app) => {
     app.command("/ping", async ({ ack, respond }) => {
+        const start = Date.now();
         await ack();
 
-        const start = Date.now();
-
-        const result = await respond("Pinging...");
-        
         const latency = Date.now() - start;
 
         await respond({
-            text: `Pong! \n Latency: \`${latency}ms\``
+            blocks: [
+                {
+                    type: "header",
+                    text: {
+                        type: "plain_text",
+                        text: "🏓 Pong!",
+                        emoji: true
+                    }
+                },
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: `*Latency:* \`${latency}ms\``
+                    }
+                },
+                {
+                    type: "context",
+                    elements: [
+                        {
+                            type: 'mrkdwn',
+                            text: "SlackTask is online and responsive ✅"
+                        }
+                    ]
+                }
+            ]
         });
     });
 };
