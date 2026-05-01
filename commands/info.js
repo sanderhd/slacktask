@@ -20,29 +20,57 @@ module.exports = (app) => {
         }
 
         const blocks = [
-            {
-                type: 'section',
-                text: {
-                    type: 'mrkdwn',
-                    text: `*TaskID: ${task.id}*\n**Text:** ${task.task_text}\n**Created at:** ${task.created_at}\n**Completed:** ${task.completed ? 'Yes' : "No"}`
-                }
-            },
-            {
-                type: 'actions',
-                elements: [
-                    {
-                        type: 'button',
-                        text: {
-                            type: 'plain_text',
-                            text: 'Finish task'
-                        },
-                        action_id: 'finish_task',
-                        value: task.id.toString(),
-                        style: 'primary'
+                {
+                    type: "header",
+                    text: {
+                        type: "plain_text",
+                        text: `📋 Task #${task.id}`,
+                        emoji: true
                     }
-                ]
-            }
-        ];
+                },
+
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text:
+                            `*Task:* ${task.task_text}\n` +
+                            `*Created:* ${task.created_at}\n` +
+                            `*Completed:* ${task.completed ? "✅ Yes" : "❌ No"}`
+                    }
+                },
+
+                {
+                    type: "divider"
+                },
+
+                {
+                    type: "context",
+                    elements: [
+                        {
+                            type: "mrkdwn",
+                            text: `User: <@${userId}> · Task ID: ${task.id}`
+                        }
+                    ]
+                },
+
+                {
+                    type: "actions",
+                    elements: [
+                        {
+                            type: "button",
+                            text: {
+                                type: "plain_text",
+                                text: "✔ Finish task",
+                                emoji: true
+                            },
+                            style: "primary",
+                            action_id: "finish_task",
+                            value: task.id.toString()
+                        }
+                    ]
+                }
+            ];
 
         await respond({ blocks });
     });
