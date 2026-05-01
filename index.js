@@ -1,21 +1,10 @@
 require("dotenv").config();
-const { App } = require("@slack/bolt");
+const { app } = require("./slack/app");
+require("./slack/registerCommands");
 
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SIGNING_SECRET
-});
-
-app.command("/ping", async ({ command, ack, respond }) => {
-  await ack();
-  await respond(`Pong`);
-});
+const logger = require("./utils/logger");
 
 (async () => {
-  try {
-    await app.start(process.env.PORT || 3000);
-    console.log(`Bot is running on ${process.env.PORT || 3000}!`);
-  } catch (err) {
-    console.error("START ERROR:", err);
-  }
+  await app.start(process.env.PORT || 3000);
+  logger.log(`Bot is running on ${process.env.PORT || 3000}`);
 })();
