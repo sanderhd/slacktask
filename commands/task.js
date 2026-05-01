@@ -5,7 +5,7 @@ module.exports = (app) => {
         await ack();
 
         const task = command.text;
-        const userId = user.id;
+        const userId = command.user_id;
 
         db.addTask(userId, task)
 
