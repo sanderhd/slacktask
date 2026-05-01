@@ -2,7 +2,7 @@ const Database = require('better-sqlite3');
 const db = new Database('tasks.db');
 
 db.exec(`
-    CREATE TABLE IF NOT EXISTS takss (
+    CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY,
         user_id TEXT NOT NULL,
         task_text TEXT NOT NULL,
@@ -22,7 +22,7 @@ module.exports = {
         return stmt.all(userId);
     },
 
-    compeleteTask: (taskId) => {
+    completeTask: (taskId) => {
         const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
         return stmt.run(taskId); 
     }
