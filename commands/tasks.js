@@ -64,4 +64,88 @@ module.exports = (app) => {
 
         await respond({ blocks });
     });
+
+    app.action("view_task_info", async ({ ack, action, client, body }) => {
+        await ack();
+
+        const taskId = parseInt(action.value);
+        const userId = body.user.id;
+
+        if (!taskId || isNaN(taskId)) {
+            await client.chat.postEphemeral({
+                channel: body.channel.id,
+                user: userId,
+                text: "Invalid task ID"
+            });
+            return;
+        }
+
+        const task = db.getTaskById(taskId, userId);
+
+        if (!task) {
+            await client.chat.postEphemeral({
+                channel: body.channel.id,
+                user: userId,
+                text: "Task not found."
+            });
+            return;
+        }
+
+        const blocks = [
+            {
+                type: "header",
+                text: {
+                    type: "plain_text",
+                    text: `📋 Task #${task.id}`,
+                    emoji: true
+                }
+            },
+
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text:
+                        `*Task:* ${task.task_text}\n` +
+                        `*Created:* ${task.created_at}\n` +
+                        `*Completed:* ${task.completed ? "✅ Yes" : "❌ No"}`
+                }
+            },
+
+            { type: "divider" },
+
+            {
+                type: "context",
+                elements: [
+                    {
+                        type: "mrkdwn",
+                        text: `User: <@${userId}> · Task ID: ${task.id}`
+                    }
+                ]
+            },
+
+            {
+                type: "actions",
+                elements: [
+                    {
+                        type: "button",
+                        text: {
+                            type: "plain_text",
+                            text: "✔ Finish task",
+                            emoji: true
+                        },
+                        style: "primary",
+                        action_id: "finish_task",
+                        value: task.id.toString()
+                    }
+                ]
+            }
+        ];
+
+        await client.chat.postEphemeral({
+            channel: body.channel.id,
+            user: userId,
+            blocks
+        });
+    });
 };
