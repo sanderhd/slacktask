@@ -4,7 +4,7 @@ module.exports = (app) => {
     app.command("/tasks", async ({ ack, respond, user }) => {
         await ack();
 
-        const tasks = db.getTasks(user.id);
+        const tasks = db.getTasks(command.user_id);
         
         const taskBlocks = tasks.map(task => ({
             type: "section",
