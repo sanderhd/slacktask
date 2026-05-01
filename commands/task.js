@@ -12,7 +12,7 @@ module.exports = (app) => {
             return;
         }
 
-        const task = db.addTask(userId, task)
+        const task = db.addTask(userId, taskText)
 
         await respond({
             blocks: [
