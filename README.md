@@ -15,6 +15,7 @@ Create a `.env` file:
 SLACK_BOT_TOKEN=
 SLACK_SIGNIN_SECRET=
 PORT=
+API_PORT=
 ```
 
 ## Running 
