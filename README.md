@@ -11,6 +11,11 @@ Slack Channel: [https://hackclub.enterprise.slack.com/archives/C0B1NFRUQ5P](http
 - `/tasks` - Get a list of all your tasks
 - `/ping` - Get the ping!
 
+## API:
+The API is accesable at: [http://api-bot.sander.tf/tasks/](http://api-bot.sander.tf/tasks/)
+
+*Example: my tasks: [http://api-bot.sander.tf/tasks/U0A0A0S987Q](http://api-bot.sander.tf/tasks/U0A0A0S987Q)*
+
 ## Installation
 ```
 git clone https://github.com/sanderhd/slacktask
