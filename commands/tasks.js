@@ -7,7 +7,7 @@ module.exports = (app) => {
         const userId = command.user_id;
         const tasks = db.getTasks(userId);
 
-        if (tasks.length  === 0) {
+        if (tasks.length === 0) {
             await respond(`No tasks found! Create a task with /task <task>`);
             return;
         }
@@ -137,6 +137,35 @@ module.exports = (app) => {
                         style: "primary",
                         action_id: "finish_task",
                         value: task.id.toString()
+                    },
+                    {
+                        type: "button",
+                        text: {
+                            type: "plain_text",
+                            text: "🗑 Delete",
+                            emoji: true
+                        },
+                        style: "danger",
+                        action_id: "delete_task",
+                        value: task.id.toString(),
+                        confirm: {
+                            title: {
+                                type: "plain_text",
+                                text: "Are you sure?"
+                            },
+                            text: {
+                                type: "mrkdwn",
+                                text: "This task will be permanently deleted."
+                            },
+                            confirm: {
+                                type: "plain_text",
+                                text: "Delete"
+                            },
+                            deny: {
+                                type: "plain_text",
+                                text: "Cancel"
+                            }
+                        }
                     }
                 ]
             }
@@ -146,6 +175,34 @@ module.exports = (app) => {
             channel: body.channel.id,
             user: userId,
             blocks
+        });
+    });
+
+    app.action("delete_task", async ({ ack, action, body, client }) => {
+        await ack();
+
+        const taskId = parseInt(action.value);
+        const userId = body.user.id;
+
+        if (!taskId || isNaN(taskId)) return;
+
+        const task = db.getTaskById(taskId, userId);
+
+        if (!task) {
+            await client.chat.postEphemeral({
+                channel: body.channel.id,
+                user: userId,
+                text: "Task not found."
+            });
+            return;
+        }
+
+        db.deleteTask(taskId, userId);
+
+        await client.chat.postEphemeral({
+            channel: body.channel.id,
+            user: userId,
+            text: `🗑 Task #${taskId} deleted successfully.`
         });
     });
 };

@@ -37,5 +37,10 @@ module.exports = {
     completeTask: (taskId) => {
         const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
         return stmt.run(taskId); 
+    },
+
+    deleteTask: (taskId, userId) => {
+        const stmt = db.prepare('DELETE FROM tasks WHERE id = ? AND user_id = ?');
+        return stmt.run(taskId, userId)
     }
 };
