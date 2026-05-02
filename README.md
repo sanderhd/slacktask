@@ -1,5 +1,15 @@
+![SlackTask Logo](docs/slacktask.png)
 # SlackTask
 A simple but powerful Slack Bot to manage tasks and access them externally via REST API.
+
+# Using my installation:
+Slack Channel: [https://hackclub.enterprise.slack.com/archives/C0B1NFRUQ5P](https://hackclub.enterprise.slack.com/archives/C0B1NFRUQ5P)
+
+## Commands:
+- `/task <task>` - Create a new task
+- `/info <task id>` - Get info about a task
+- `/tasks` - Get a list of all your tasks
+- `/ping` - Get the ping!
 
 ## Installation
 ```
