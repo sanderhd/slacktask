@@ -22,7 +22,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node start.js",
+    "bot": "node index.js",
+    "server": "node server.js"
   },
   "dependencies": {
     "@slack/bolt": "^4.7.1",
